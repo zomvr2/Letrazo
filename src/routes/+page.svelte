@@ -149,6 +149,22 @@
     }
 </style>
 
+<svelte:head>
+    <title>Letrazo | Adivina la palabra oculta en español</title>
+    <meta name="description" content="Juega Letrazo, el divertido reto de adivinar la palabra oculta de 5 letras en 6 intentos. ¡Ejercita tu mente y pon a prueba tu vocabulario gratis!" />
+    <meta name="keywords" content="letrazo, juego de palabras, wordle español, adivinar palabras, rompecabezas, acertijo, juego mental" />
+    <meta name="author" content="Tu Nombre o Estudio" />
+
+    <meta name="theme-color" content="#f9a8d4" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Letrazo - El reto de la palabra diaria" />
+    <meta property="og:description" content="¿Podrás adivinar la palabra de 5 letras? Pon a prueba tu mente con Letrazo." />
+
+    <meta name="twitter:title" content="Letrazo | Adivina la palabra oculta" />
+    <meta name="twitter:description" content="Adivina la palabra de 5 letras en 6 intentos. ¡Juega gratis ahora!" />
+</svelte:head>
+
 <main class="container min-h-screen mx-auto md:max-w-1/2 py-4 px-1 md:p-4 flex flex-col gap-4 items-center justify-center">
     {#if !CAN_WRITE}
         <div style="
