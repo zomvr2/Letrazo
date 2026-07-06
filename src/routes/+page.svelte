@@ -33,6 +33,10 @@
         if (key === " ") return;
 
         if (key === "Enter" && guess.length === MAX_LETTERS) {
+            if (!words.includes(guess.toLowerCase())) {
+                return;
+            }
+
             checkGuess();
             guess = "";
             currentCol = 0;
