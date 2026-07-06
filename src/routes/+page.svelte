@@ -150,11 +150,60 @@
             <Confetti x={[-5, 5]} y={[0, 0.1]} delay={[100, 2000]} infinite duration=5000 amount=200 fallDistance="100vh" />
         </div>
 
-        <div class="flex flex-col fixed right-5 bottom-5 bg-gray-100 border border-gray-200 rounded-3xl overflow-hidden p-5">
-            <img src={pibble} class="w-full rounded-xl mb-3" alt="Rave dancing pibble" />
-            <p class="font-black text-xl">¡Acertaste! 🎉</p>
-            <p>La palabra es <span class="font-semibold">{WORD}</span></p>
-            <button onclick={getRandomWord} class="bg-pink-300 text-white py-2 rounded-xl mt-3 cursor-pointer">Nueva palabra</button>
+        <div
+                class="
+        fixed z-50
+        left-5 right-5 bottom-5
+        md:left-auto md:right-5 md:bottom-5
+
+        w-auto md:w-80 lg:w-96
+
+        flex flex-col
+        bg-gray-100
+        border border-gray-200
+        rounded-3xl
+        overflow-hidden
+
+        shadow-xl shadow-black/10
+        backdrop-blur-sm
+    "
+        >
+            <img
+                    src={pibble}
+                    class="
+            w-full
+            h-44 sm:h-52 md:h-44
+            object-cover
+        "
+                    alt="Rave dancing pibble"
+            />
+
+            <div class="px-6 py-4">
+                <p class="font-black text-xl text-gray-800">¡Acertaste! 🎉</p>
+
+                <p class="text-gray-600">
+                    La palabra es <span class="font-semibold text-gray-800">{WORD}</span>
+                </p>
+
+                <button
+                        onclick={getRandomWord}
+                        class="
+                bg-pink-300
+                text-white
+                p-2.5
+                rounded-xl
+                mt-4
+                cursor-pointer
+                w-full
+                font-semibold
+                transition-all
+                hover:bg-pink-400
+                active:scale-95
+            "
+                >
+                    Nueva palabra
+                </button>
+            </div>
         </div>
     {/if}
 
@@ -179,6 +228,7 @@
             </div>
         </div>
     </div>
+
     {#each board as row, rowIndex}
         <div class="flex flex-row gap-2 items-center justify-center">
             {#each row as col, colIndex}
@@ -190,16 +240,17 @@
         </div>
     {/each}
 
-    <div class="w-full flex justify-center px-0.5 select-none md:hidden">
-        <div class="w-full max-w-2xl flex flex-col gap-2">
-            {#each KEYBOARD_ROWS as row}
-                <div class="flex justify-center gap-1">
-                    {#each row as key}
-                        <button
-                                type="button"
-                                aria-label={key === "Backspace" ? "Borrar" : key}
-                                onclick={() => handler({key: key})}
-                                class="
+    {#if CAN_WRITE}
+        <div class="w-full flex justify-center px-0.5 select-none md:hidden">
+            <div class="w-full max-w-2xl flex flex-col gap-2">
+                {#each KEYBOARD_ROWS as row}
+                    <div class="flex justify-center gap-1">
+                        {#each row as key}
+                            <button
+                                    type="button"
+                                    aria-label={key === "Backspace" ? "Borrar" : key}
+                                    onclick={() => handler({key: key})}
+                                    class="
                             h-11
                             rounded-xl sm:rounded-2xl
                             bg-gray-200 text-gray-800
@@ -212,18 +263,20 @@
                             flex items-center justify-center
                             w-full
                         "
-                        >
-                            {#if key === "Backspace"}
-                                ⌫
-                            {:else if key === "Enter"}
-                                ✓
-                            {:else}
-                                {key}
-                            {/if}
-                        </button>
-                    {/each}
-                </div>
-            {/each}
+                            >
+                                {#if key === "Backspace"}
+                                    ⌫
+                                {:else if key === "Enter"}
+                                    ✓
+                                {:else}
+                                    {key}
+                                {/if}
+                            </button>
+                        {/each}
+                    </div>
+                {/each}
+            </div>
         </div>
-    </div>
+    {/if}
+
 </main>
