@@ -1,6 +1,7 @@
 <script>
     import {onMount} from "svelte";
     import { words } from "../data/words.js";
+    import { Confetti } from "svelte-confetti"
 
     const MAX_LETTERS = 5;
     const MAX_GUESSES = 6;
@@ -118,24 +119,38 @@
 </script>
 
 <main class="container min-h-screen mx-auto max-w-1/2 p-4 flex flex-col gap-4 items-center justify-center">
+    {#if !CAN_WRITE}
+        <div style="
+             position: fixed;
+             top: -50px;
+             left: 0;
+             height: 100vh;
+             width: 100vw;
+             display: flex;
+             justify-content: center;
+             overflow: hidden;
+             pointer-events: none;">
+            <Confetti x={[-5, 5]} y={[0, 0.1]} delay={[200, 2000]} infinite duration=5000 amount=200 fallDistance="100vh" />
+        </div>
+    {/if}
     <div class="flex flex-col items-center justify-center mb-3">
-        <h1 class="font-bold text-xl">Benjadle</h1>
+        <h1 class="font-bold text-xl">LETRAZO</h1>
         <p>Adivina la palabra de 5 letras.</p>
 
         <div class="flex flex-col items-start gap-1 mt-3">
             <div class="flex flex-row items-center gap-2">
                 <div class="bg-pink-300 w-5 aspect-square rounded-3xl"></div>
-                <p class="font-light text-sm">Representa a una letra correcta en su lugar correcto.</p>
+                <p class="font-light text-sm">Representa una letra correcta en su lugar correcto.</p>
             </div>
 
             <div class="flex flex-row items-center gap-2">
                 <div class="bg-yellow-200 w-5 aspect-square rounded-3xl"></div>
-                <p class="font-light text-sm">Representa a una letra correcta en un lugar incorrecto.</p>
+                <p class="font-light text-sm">Representa una letra correcta en un lugar incorrecto.</p>
             </div>
 
             <div class="flex flex-row items-center gap-2">
                 <div class="bg-gray-500 w-5 aspect-square rounded-3xl"></div>
-                <p class="font-light text-sm">Representa a una letra incorrecta.</p>
+                <p class="font-light text-sm">Representa una letra incorrecta.</p>
             </div>
         </div>
     </div>
