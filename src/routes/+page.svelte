@@ -153,7 +153,7 @@
     <title>Letrazo | Adivina la palabra oculta en español</title>
     <meta name="description" content="Juega Letrazo, el divertido reto de adivinar la palabra oculta de 5 letras en 6 intentos. ¡Ejercita tu mente y pon a prueba tu vocabulario gratis!" />
     <meta name="keywords" content="letrazo, juego de palabras, wordle español, adivinar palabras, rompecabezas, acertijo, juego mental" />
-    <meta name="author" content="Tu Nombre o Estudio" />
+    <meta name="author" content="benjamonsh" />
 
     <meta name="theme-color" content="#f9a8d4" />
 
