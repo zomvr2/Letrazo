@@ -1,7 +1,8 @@
 <script>
     import {onMount} from "svelte";
     import { words } from "../data/words.js";
-    import { Confetti } from "svelte-confetti"
+    import { Confetti } from "svelte-confetti";
+    import pibble from "$lib/assets/pibble-rave.gif";
 
     const MAX_LETTERS = 5;
     const MAX_GUESSES = 6;
@@ -95,8 +96,22 @@
     }
 
     let getRandomWord = () => {
+        resetGame()
         WORD = words[Math.floor(Math.random() * words.length)].toUpperCase();
         console.log(WORD);
+    }
+
+    let resetGame = () => {
+        CAN_WRITE = true;
+        currentRow = 0;
+        currentCol = 0;
+        guess = "";
+        board = Array.from({ length: MAX_GUESSES }, () =>
+                Array.from({ length: MAX_LETTERS }, () => "")
+            );
+        boardState = Array.from({ length: MAX_GUESSES }, () =>
+                Array.from({ length: MAX_LETTERS }, () => 0)
+            );
     }
 
     let getStatusClass = (statusNumber) => {
@@ -118,7 +133,7 @@
     });
 </script>
 
-<main class="container min-h-screen mx-auto max-w-1/2 p-4 flex flex-col gap-4 items-center justify-center">
+<main class="container min-h-screen mx-auto md:max-w-1/2 p-4 flex flex-col gap-4 items-center justify-center">
     {#if !CAN_WRITE}
         <div style="
              position: fixed;
@@ -129,10 +144,20 @@
              display: flex;
              justify-content: center;
              overflow: hidden;
-             pointer-events: none;">
-            <Confetti x={[-5, 5]} y={[0, 0.1]} delay={[200, 2000]} infinite duration=5000 amount=200 fallDistance="100vh" />
+             pointer-events: none;
+             z-index: 100;"
+        >
+            <Confetti x={[-5, 5]} y={[0, 0.1]} delay={[100, 2000]} infinite duration=5000 amount=200 fallDistance="100vh" />
+        </div>
+
+        <div class="flex flex-col fixed right-5 bottom-5 bg-gray-100 border border-gray-200 rounded-3xl overflow-hidden p-5">
+            <img src={pibble} class="w-full rounded-xl mb-3" alt="Rave dancing pibble" />
+            <p class="font-black text-xl">¡Acertaste! 🎉</p>
+            <p>La palabra es <span class="font-semibold">{WORD}</span></p>
+            <button onclick={getRandomWord} class="bg-pink-300 text-white py-2 rounded-xl mt-3 cursor-pointer">Nueva palabra</button>
         </div>
     {/if}
+
     <div class="flex flex-col items-center justify-center mb-3">
         <h1 class="font-bold text-xl">LETRAZO</h1>
         <p>Adivina la palabra de 5 letras.</p>
@@ -158,8 +183,8 @@
         <div class="flex flex-row gap-2 items-center justify-center">
             {#each row as col, colIndex}
                 {@const status = boardState[rowIndex][colIndex]}
-                <div class="flex w-16 h-16 items-center justify-center {getStatusClass(status)} transition-all duration-100 ease-in-out rounded-3xl">
-                    <p class="text-4xl">{col}</p>
+                <div class="flex w-16 h-16 items-center justify-center {getStatusClass(status)} transition-all duration-100 ease-in-out rounded-3xl select-none">
+                    <p class="text-4xl leading-none {rowIndex === currentRow ? "font-normal" : "font-semibold"}">{col}</p>
                 </div>
             {/each}
         </div>
