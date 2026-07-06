@@ -3,6 +3,7 @@
     import { words } from "../data/words.js";
     import { Confetti } from "svelte-confetti";
     import pibble from "$lib/assets/pibble-rave.gif";
+    import {NUMBERS, KEYBOARD_ROWS} from "$lib/CONSTANTS.js";
 
     const MAX_LETTERS = 5;
     const MAX_GUESSES = 6;
@@ -27,10 +28,9 @@
 
     const handler = (e) => {
         const key = e.key
-        const numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
         if (!CAN_WRITE) return;
-        if (e.keyCode === 32) return;
+        if (key === " ") return;
 
         if (key === "Enter" && guess.length === MAX_LETTERS) {
             checkGuess();
@@ -53,7 +53,7 @@
         }
 
         if (key.length > 1) return;
-        if (numbers.includes(key[0])) return;
+        if (NUMBERS.includes(key[0])) return;
         if (currentCol === MAX_LETTERS) return;
 
         board[currentRow][currentCol] = key.toUpperCase();
@@ -133,7 +133,7 @@
     });
 </script>
 
-<main class="container min-h-screen mx-auto md:max-w-1/2 p-4 flex flex-col gap-4 items-center justify-center">
+<main class="container min-h-screen mx-auto md:max-w-1/2 py-4 px-1 md:p-4 flex flex-col gap-4 items-center justify-center">
     {#if !CAN_WRITE}
         <div style="
              position: fixed;
@@ -189,4 +189,41 @@
             {/each}
         </div>
     {/each}
+
+    <div class="w-full flex justify-center px-0.5 select-none md:hidden">
+        <div class="w-full max-w-2xl flex flex-col gap-2">
+            {#each KEYBOARD_ROWS as row}
+                <div class="flex justify-center gap-1">
+                    {#each row as key}
+                        <button
+                                type="button"
+                                aria-label={key === "Backspace" ? "Borrar" : key}
+                                onclick={() => handler({key: key})}
+                                class="
+                            h-11
+                            rounded-xl sm:rounded-2xl
+                            bg-gray-200 text-gray-800
+                            font-bold text-sm sm:text-base
+                            shadow-md shadow-blue-900/20
+                            transition-all duration-150
+                            active:scale-95
+                            hover:bg-gray-300
+                            cursor-pointer
+                            flex items-center justify-center
+                            w-full
+                        "
+                        >
+                            {#if key === "Backspace"}
+                                ⌫
+                            {:else if key === "Enter"}
+                                ✓
+                            {:else}
+                                {key}
+                            {/if}
+                        </button>
+                    {/each}
+                </div>
+            {/each}
+        </div>
+    </div>
 </main>
