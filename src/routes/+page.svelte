@@ -102,7 +102,6 @@
     let getRandomWord = () => {
         resetGame()
         WORD = words[Math.floor(Math.random() * words.length)].toUpperCase();
-        console.log(WORD);
     }
 
     let resetGame = () => {
