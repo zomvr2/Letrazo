@@ -133,6 +133,18 @@
     });
 </script>
 
+<style>
+    @keyframes pop {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+    }
+
+    .animate-pop {
+        animation: pop 0.15s ease-in-out;
+    }
+</style>
+
 <main class="container min-h-screen mx-auto md:max-w-1/2 py-4 px-1 md:p-4 flex flex-col gap-4 items-center justify-center">
     {#if !CAN_WRITE}
         <div style="
@@ -233,7 +245,7 @@
         <div class="flex flex-row gap-2 items-center justify-center">
             {#each row as col, colIndex}
                 {@const status = boardState[rowIndex][colIndex]}
-                <div class="flex w-16 h-16 items-center justify-center {getStatusClass(status)} transition-all duration-100 ease-in-out rounded-3xl select-none">
+                <div class="flex w-16 h-16 items-center justify-center {getStatusClass(status)} transition-colors duration-100 ease-in-out rounded-3xl select-none {col !== '' && rowIndex === currentRow ? 'animate-pop' : ''}">
                     <p class="text-4xl leading-none {rowIndex === currentRow ? "font-normal" : "font-semibold"}">{col}</p>
                 </div>
             {/each}
