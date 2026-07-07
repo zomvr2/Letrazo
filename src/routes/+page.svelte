@@ -121,6 +121,7 @@
         currentRow = 0;
         currentCol = 0;
         guess = "";
+        lockedLetters = []
         board = Array.from({ length: MAX_GUESSES }, () =>
                 Array.from({ length: MAX_LETTERS }, () => "")
             );
