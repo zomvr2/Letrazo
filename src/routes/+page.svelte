@@ -3,6 +3,7 @@
     import { words } from "../data/words.js";
     import { Confetti } from "svelte-confetti";
     import pibble from "$lib/assets/pibble-rave.gif";
+    import sadPibble from "$lib/assets/megabademo-emo-dog.gif";
     import {NUMBERS, KEYBOARD_ROWS} from "$lib/CONSTANTS.js";
 
     import SendSolidIcon from '@iconify-svelte/mynaui/send-solid';
@@ -12,6 +13,7 @@
     const MAX_GUESSES = 6;
     let WORD = $state("");
     let CAN_WRITE = $state(true);
+    let STATUS = $state("playing");
 
     let board = $state(
         Array.from({ length: MAX_GUESSES }, () =>
@@ -37,10 +39,6 @@
         if (key === " ") return;
 
         if (key === "Enter" && guess.length === MAX_LETTERS) {
-            if (!words.includes(guess.toLowerCase())) {
-                return;
-            }
-
             checkGuess();
             guess = "";
             currentCol = 0;
@@ -88,7 +86,6 @@
             } else {
                 currentCheck[j] = 3;
                 lockedLetters.push(guess[j]);
-                console.log(lockedLetters);
             }
         }
 
@@ -97,20 +94,29 @@
         }
 
         if (guessed === MAX_LETTERS) win();
+        if (currentRow === MAX_GUESSES - 1) loss();
 
         boardState[currentRow] = currentCheck;
     }
 
     const win = () => {
         CAN_WRITE = false;
+        STATUS = "win"
+    }
+
+    const loss = () => {
+        CAN_WRITE = false;
+        STATUS = "loss"
     }
 
     let getRandomWord = () => {
         resetGame()
         WORD = words[Math.floor(Math.random() * words.length)].toUpperCase();
+        console.log(WORD);
     }
 
     let resetGame = () => {
+        STATUS = "playing"
         CAN_WRITE = true;
         currentRow = 0;
         currentCol = 0;
@@ -171,7 +177,7 @@
 </svelte:head>
 
 <main class="container min-h-screen mx-auto md:max-w-1/2 py-4 px-1 md:p-4 flex flex-col gap-4 items-center justify-center">
-    {#if !CAN_WRITE}
+    {#if STATUS === "win"}
         <div style="
              position: fixed;
              top: -50px;
@@ -209,7 +215,7 @@
                     src={pibble}
                     class="
             w-full
-            h-44 sm:h-52 md:h-44
+            h-72
             object-cover
         "
                     alt="Rave dancing pibble"
@@ -217,6 +223,63 @@
 
             <div class="px-6 py-4">
                 <p class="font-black text-xl text-gray-800">¡Acertaste! 🎉</p>
+
+                <p class="text-gray-600">
+                    La palabra es <span class="font-semibold text-gray-800">{WORD}</span>
+                </p>
+
+                <button
+                        onclick={getRandomWord}
+                        class="
+                bg-pink-300
+                text-white
+                p-2.5
+                rounded-xl
+                mt-4
+                cursor-pointer
+                w-full
+                font-semibold
+                transition-all
+                hover:bg-pink-400
+                active:scale-95
+            "
+                >
+                    Nueva palabra
+                </button>
+            </div>
+        </div>
+    {:else if STATUS === "loss"}
+        <div
+                class="
+        fixed z-50
+        left-5 right-5 bottom-5
+        md:left-auto md:right-5 md:bottom-5
+
+        w-auto md:w-80 lg:w-96
+
+        flex flex-col
+        bg-gray-100
+        border border-gray-200
+        rounded-3xl
+        overflow-hidden
+
+        shadow-xl shadow-black/10
+        backdrop-blur-sm
+    "
+        >
+            <img
+                    src={sadPibble}
+                    class="
+            w-full
+            h-72
+            object-cover
+            object-top
+        "
+                    alt="Rave dancing pibble"
+            />
+
+            <div class="px-6 py-4">
+                <p class="font-black text-xl text-gray-800">¡Perdiste!</p>
 
                 <p class="text-gray-600">
                     La palabra es <span class="font-semibold text-gray-800">{WORD}</span>

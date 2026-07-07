@@ -198,7 +198,11 @@ export const solutions = [
     "rocas",
     "rosas",
     "ruido",
-    "saber"
+    "saber",
+    "pibol",
+    "papoi",
+    "benja",
+    "sofia"
 ];
 
 export const words = [...solutions];
