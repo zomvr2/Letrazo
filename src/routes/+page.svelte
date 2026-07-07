@@ -5,6 +5,9 @@
     import pibble from "$lib/assets/pibble-rave.gif";
     import {NUMBERS, KEYBOARD_ROWS} from "$lib/CONSTANTS.js";
 
+    import SendSolidIcon from '@iconify-svelte/mynaui/send-solid';
+    import DeleteSolidIcon from '@iconify-svelte/mynaui/delete-solid';
+
     const MAX_LETTERS = 5;
     const MAX_GUESSES = 6;
     let WORD = $state("");
@@ -284,21 +287,21 @@
                                     class="
                             h-11
                             rounded-xl sm:rounded-2xl
-                            bg-gray-200 text-gray-800
                             font-bold text-sm sm:text-base
-                            shadow-md shadow-blue-900/20
+                            shadow-sm shadow-blue-900/20
                             transition-all duration-150
                             active:scale-95
-                            hover:bg-gray-300
+                            active:shadow-none
                             cursor-pointer
                             flex items-center justify-center
                             w-full
+                            hover:bg-gray-200
                         "
                             >
                                 {#if key === "Backspace"}
-                                    ⌫
+                                    <DeleteSolidIcon height="1.2rem" />
                                 {:else if key === "Enter"}
-                                    ✓
+                                    <SendSolidIcon height="1.2rem" />
                                 {:else}
                                     {key}
                                 {/if}
