@@ -28,6 +28,7 @@
     let currentRow = $state(0);
     let currentCol = $state(0);
     let guess = $state("");
+    let lockedLetters = $state([]);
 
     const handler = (e) => {
         const key = e.key
@@ -86,6 +87,8 @@
                 currentCheck[j] = 2;
             } else {
                 currentCheck[j] = 3;
+                lockedLetters.push(guess[j]);
+                console.log(lockedLetters);
             }
         }
 
@@ -295,6 +298,8 @@
                             cursor-pointer
                             flex items-center justify-center
                             w-full
+                            {lockedLetters.includes(key) ? "text-gray-300" : "text-black"}
+                            bg-white
                             hover:bg-gray-200
                         "
                             >
